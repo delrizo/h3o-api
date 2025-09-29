@@ -1,0 +1,74 @@
+networks:
+    api:
+        driver: bridge
+
+volumes:
+    # grafana-storage:
+    postgres-data:
+
+services:
+    # app:
+    #     container_name: app
+    #     build:
+    #         context: .
+    #         dockerfile: Dockerfile
+    #     environment:
+    #         - NODE_ENV=production
+    #         - PM2_PORT=9010
+    #         - HTTP_PORT=8080
+    #         - WS_PORT=8090
+    #         - SECRET_KEY=spreadScreenerApi777
+    #     ports:
+    #         - 8080:8080
+    #         - 8090:8090
+    #     networks:
+    #         - api
+
+    postgres:
+        image: postgres:latest
+        container_name: postgres
+        ports:
+            - '5432:5432'
+        volumes:
+            - postgres-data:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_DB=h3o
+            - POSTGRES_USER=admin
+            - POSTGRES_PASSWORD=admin
+        networks:
+            - api
+
+    # postgres-exporter:
+    #     image: wrouesnel/postgres_exporter:latest
+    #     container_name: postgres-exporter
+    #     ports:
+    #         - '9187:9187'
+    #     environment:
+    #         - DATA_SOURCE_NAME=postgres://admin:admin@postgres:5432/core?sslmode=disable
+    #     networks:
+    #         - api
+
+    # prometheus:
+    #     image: prom/prometheus
+    #     container_name: prometheus
+    #     ports:
+    #         - '9090:9090'
+    #     volumes:
+    #         - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    #     networks:
+    #         - api
+
+    # grafana:
+    #     image: grafana/grafana
+    #     container_name: grafana
+    #     ports:
+    #         - '5050:3000'
+    #     volumes:
+    #         - grafana-storage:/var/lib/grafana
+    #         - ./grafana/provisioning:/etc/grafana/provisioning
+    #     environment:
+    #         - GF_AUTH_DISABLE_LOGIN_FORM=true
+    #         - GF_AUTH_ANONYMOUS_ENABLED=true
+    #         - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    #     networks:
+    #         - api
