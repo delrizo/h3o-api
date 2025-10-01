@@ -1,7 +1,7 @@
 export enum Status {
     ONE = 'one',
     TWO = 'two',
-    THREE = 'THREE'
+    THREE = 'three'
 }
 
 export const statuses = Object.values(Status)

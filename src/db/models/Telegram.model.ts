@@ -5,14 +5,14 @@ import { DriverModel } from '~/db/models/driver.model'
 export class TelegramModel extends Model {
     @ForeignKey(() => DriverModel)
     @Column({ type: DataType.INTEGER, allowNull: true })
-    driverId: number
+    declare driverId: number
 
-    @Column({ type: DataType.NUMBER, allowNull: false })
-    telegram_id: number
+    @Column({ type: DataType.BIGINT, allowNull: false })
+    declare telegram_id: number
 
     @Column({ type: DataType.STRING, allowNull: true })
-    first_name: string
+    declare first_name: string
 
     @Column({ type: DataType.STRING, allowNull: false })
-    username: string
+    declare username: string
 }

@@ -5,14 +5,14 @@ import { DriverModel } from '~/db/models/driver.model'
 export class WorkSheetModel extends Model {
     @ForeignKey(() => DriverModel)
     @Column({ type: DataType.INTEGER, allowNull: true })
-    driverId: number
+    declare driverId: number
 
     @Column({ type: DataType.STRING, allowNull: false })
-    last_name: string
+    declare last_name: string
 
     @Column({ type: DataType.STRING, allowNull: false })
-    first_name: string
+    declare first_name: string
 
     @Column({ type: DataType.STRING, allowNull: true })
-    middle_name: string
+    declare middle_name: string
 }

@@ -15,11 +15,11 @@ export class DriverModel extends Model {
             }
         }
     })
-    status: Status
+    declare status: Status
 
     @HasOne(() => TelegramModel)
-    telegram: TelegramModel
+    declare telegram: TelegramModel
 
     @HasOne(() => WorkSheetModel)
-    worksheet: WorkSheetModel
+    declare worksheet: WorkSheetModel
 }
