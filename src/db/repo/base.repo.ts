@@ -4,7 +4,7 @@ import { CreateOptions } from 'sequelize'
 @Injectable()
 export class BaseRepo<T> {
     constructor(
-        @Inject('SEQUELIZE_REPOSITORY')
+        @Inject('SEQUELIZE_REPO')
         private readonly model: any
     ) {}
 
