@@ -2,9 +2,7 @@ import { ConfigModuleRoot } from '~/config.module.root'
 import { SequelizeModule } from '@nestjs/sequelize'
 import { Module } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
-import { DriverModel } from '~/db/models/driver.model'
-import { TelegramModel } from '~/db/models/telegram.model'
-import { WorkSheetModel } from '~/db/models/work-sheet.model'
+import { DriverModel, ApplicationModel, TelegramModel, WorkSheetModel } from '~/db/models'
 import { AuthModule } from '~/auth/auth.module'
 
 @Module({
@@ -24,7 +22,7 @@ import { AuthModule } from '~/auth/auth.module'
             autoLoadModels: true,
             dialect: 'postgres',
             logging: false,
-            models: [DriverModel, TelegramModel, WorkSheetModel]
+            models: [DriverModel, ApplicationModel, TelegramModel, WorkSheetModel]
         }),
         AuthModule
     ]
