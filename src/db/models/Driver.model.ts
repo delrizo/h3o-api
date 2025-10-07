@@ -2,7 +2,6 @@ import { Column, DataType, HasOne, Model, Table } from 'sequelize-typescript'
 import { DriverStatus, DRIVER_STATUSES } from '~/constants'
 import { TelegramModel } from '~/db/models/telegram.model'
 import { WorkSheetModel } from '~/db/models/work-sheet.model'
-import { ApplicationModel } from '~/db/models/application.model'
 
 @Table({ tableName: 'drivers' })
 export class DriverModel extends Model {
@@ -17,9 +16,6 @@ export class DriverModel extends Model {
         }
     })
     declare status: DriverStatus
-
-    @HasOne(() => ApplicationModel)
-    declare application: ApplicationModel
 
     @HasOne(() => TelegramModel)
     declare telegram: TelegramModel

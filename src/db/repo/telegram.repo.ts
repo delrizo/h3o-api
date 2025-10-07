@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common'
-import { TelegramModel } from '~/db/models'
+import { TelegramModel } from '~/db/models/telegram.model'
 import { BaseRepo } from '~/db/repo/base.repo'
 
 @Injectable()
