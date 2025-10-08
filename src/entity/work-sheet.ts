@@ -1,5 +1,5 @@
 import { Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript'
-import { DriverModel } from '~/db/models/driver.model'
+import { DriverModel } from '~/entity/driver'
 
 @Table({ tableName: 'worksheets' })
 export class WorkSheetModel extends Model {

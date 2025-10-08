@@ -2,7 +2,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { NestFactory } from '@nestjs/core'
 import { RootModule } from '~/root.module'
 import { ValidationPipe } from '@nestjs/common'
-import { seedDrivers } from '~/db/seeds/driver.seed'
+import { seedDrivers } from '~/entity/seeds/driver.seed'
 import { Logger } from '@nestjs/common'
 
 async function bootstrap() {

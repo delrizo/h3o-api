@@ -1,6 +1,6 @@
 import { Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript'
 import { IsNumber, IsOptional, IsString } from 'class-validator'
-import { DriverModel } from '~/db/models/driver.model'
+import { DriverModel } from '~/entity/driver'
 import { ApiProperty } from '@nestjs/swagger'
 
 @Table({ tableName: 'telegrams' })
@@ -9,10 +9,10 @@ export class TelegramModel extends Model {
     @Column({ type: DataType.INTEGER, allowNull: true })
     declare driverId: number
 
-    @Column({ type: DataType.BIGINT, allowNull: false })
+    @Column({ type: DataType.BIGINT, allowNull: false, unique: true })
     declare telegram_id: number
 
-    @Column({ type: DataType.STRING, allowNull: true })
+    @Column({ type: DataType.STRING, allowNull: false })
     declare first_name: string
 
     @Column({ type: DataType.STRING, allowNull: false })
@@ -27,7 +27,7 @@ export class TelegramModelDto {
     @ApiProperty({ example: 'FirstName', description: 'Telegram First Name' })
     @IsOptional()
     @IsString({ message: 'Must be a string' })
-    readonly first_name?: string
+    readonly first_name: string
 
     @ApiProperty({ example: 'userName', description: 'Telegram Username' })
     @IsString({ message: 'Must be a string' })

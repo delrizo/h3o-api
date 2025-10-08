@@ -1,10 +1,12 @@
-export enum ApplicationSource {
-    SITE = 'site',
-    TELEGRAM = 'telegram',
-    UNKNOWN = 'unknown'
+export enum ApplicationType {
+    EMPLOYMENT = 'employment', // наем на работу
+    CONTACT_REQUEST = 'contact_request', // Связаться с водителем
+    STATUS_UPGRADE = 'status_upgrade', // Повышение статуса
+    SUPPORT = 'support', // Техподдержка
+    OTHER = 'other' // Другое
 }
 
-export const APPLICATION_SOURCES = Object.values(ApplicationSource)
+export const APPLICATION_TYPES = Object.values(ApplicationType)
 
 export enum ApplicationStatus {
     ONE = 'one',
