@@ -1,30 +1,9 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
-import { Column, DataType, HasOne, Model, Table } from 'sequelize-typescript'
-import { DriverStatus, DRIVER_STATUSES } from '~/constants'
-import { TelegramModel } from '~/entity/telegram'
-import { WorkSheetModel } from '~/entity/work-sheet'
-
-@Table({ tableName: 'drivers' })
-export class DriverModel extends Model {
-    @Column({
-        type: DataType.ENUM(...DRIVER_STATUSES),
-        allowNull: false,
-        validate: {
-            isIn: {
-                args: [DRIVER_STATUSES],
-                msg: `status must be a valid (${DRIVER_STATUSES.join(', ')})`
-            }
-        }
-    })
-    declare status: DriverStatus
-
-    @HasOne(() => TelegramModel)
-    declare telegram: TelegramModel
-
-    @HasOne(() => WorkSheetModel)
-    declare worksheet: WorkSheetModel
-}
+import { DriverModel } from './driver.model'
+import { TelegramModel } from '../telegram/telegram.model'
+import { DriverStatus } from '~/constants'
+import { WorkSheetModel } from '../work-sheet/work-sheet.model'
 
 @Injectable()
 export class DriverService {
@@ -84,5 +63,27 @@ export class DriverService {
         })
 
         return !!telegram
+    }
+
+    async getDrivers(status?: DriverStatus): Promise<DriverModel[]> {
+        const whereCondition: any = {}
+
+        if (status) {
+            whereCondition.status = status
+        }
+
+        return this.driverModel.findAll({
+            where: whereCondition,
+            include: [
+                {
+                    model: TelegramModel,
+                    required: false // false чтобы включить водителей без Telegram
+                },
+                {
+                    model: WorkSheetModel,
+                    required: false // false чтобы включить водителей без рабочего листа
+                }
+            ]
+        })
     }
 }

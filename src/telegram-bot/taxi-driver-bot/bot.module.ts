@@ -4,10 +4,14 @@ import { BotService } from './bot.service'
 import { BotUpdate } from './bot.update'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { session } from 'telegraf'
-import { DriverModel, DriverService } from '~/entity/driver'
+import { DriverModel } from '~/entity/driver/driver.model'
 import { SequelizeModule } from '@nestjs/sequelize'
-import { TelegramModel } from '~/entity/telegram'
-import { ApplicationModel, ApplicationService } from '~/entity/application'
+import { TelegramModel } from '~/entity/telegram/telegram.model'
+import { ApplicationModel } from '~/entity/application/application.model'
+import { DriverService } from '~/entity/driver/driver.service'
+import { DriverModule } from '~/entity/driver/driver.module'
+import { ApplicationModule } from '~/entity/application/application.module'
+import { ApplicationService } from '~/entity/application/application.service'
 
 @Module({
     imports: [
@@ -20,7 +24,9 @@ import { ApplicationModel, ApplicationService } from '~/entity/application'
             }),
             inject: [ConfigService]
         }),
-        SequelizeModule.forFeature([DriverModel, TelegramModel, ApplicationModel])
+        SequelizeModule.forFeature([DriverModel, TelegramModel, ApplicationModel]),
+        DriverModule,
+        ApplicationModule
     ],
     providers: [BotService, BotUpdate, DriverService, ApplicationService]
 })

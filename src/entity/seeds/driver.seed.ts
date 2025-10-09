@@ -1,7 +1,7 @@
 // ~/db/seeds/driver.seed.ts
-import { DriverModel } from '../driver'
-import { TelegramModel } from '../telegram'
-import { WorkSheetModel } from '../work-sheet'
+import { DriverModel } from '../driver/driver.model'
+import { TelegramModel } from '../telegram/telegram.model'
+import { WorkSheetModel } from '../work-sheet/work-sheet.model'
 
 export const seedDrivers = async () => {
     // Очистка таблиц (опционально)

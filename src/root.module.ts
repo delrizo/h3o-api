@@ -2,12 +2,13 @@ import { ConfigModuleRoot } from '~/config.module.root'
 import { SequelizeModule } from '@nestjs/sequelize'
 import { Module } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
-import { DriverModel } from '~/entity/driver'
-import { TelegramModel } from '~/entity/telegram'
-import { WorkSheetModel } from '~/entity/work-sheet'
+import { DriverModel } from '~/entity/driver/driver.model'
+import { TelegramModel } from '~/entity/telegram/telegram.model'
+import { WorkSheetModel } from '~/entity/work-sheet/work-sheet.model'
 import { AuthModule } from '~/auth/auth.module'
-import { BotModule } from './telegram/taxi-driver-bot/bot.module'
-import { ApplicationModel } from './entity/application'
+import { BotModule } from './telegram-bot/taxi-driver-bot/bot.module'
+import { ApplicationModel } from './entity/application/application.model'
+import { DriverModule } from './entity/driver/driver.module'
 
 @Module({
     imports: [
@@ -29,6 +30,7 @@ import { ApplicationModel } from './entity/application'
             models: [DriverModel, TelegramModel, WorkSheetModel, ApplicationModel]
         }),
         AuthModule,
+        DriverModule,
         BotModule
     ]
 })

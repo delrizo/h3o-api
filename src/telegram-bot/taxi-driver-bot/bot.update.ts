@@ -1,19 +1,17 @@
 import { Update, Ctx, Start, Action } from 'nestjs-telegraf'
 import { Context } from 'telegraf'
-import { BotService } from './bot.service'
 import { BUTTON, MESSAGE } from './message'
-import { DriverService } from '~/entity/driver'
 import { UseGuards } from '@nestjs/common'
 import { TelegramUserGuard } from '../guards/telegram-user.guard'
 import { TelegramUser } from '../decorators/telegram-user.decorator'
 import type { User } from 'telegraf/types'
-import { ApplicationService } from '~/entity/application'
 import { ApplicationType } from '~/constants'
+import { DriverService } from '~/entity/driver/driver.service'
+import { ApplicationService } from '~/entity/application/application.service'
 
 @Update()
 export class BotUpdate {
     constructor(
-        private readonly botService: BotService,
         private readonly driverService: DriverService,
         private readonly applicationService: ApplicationService
     ) {}
