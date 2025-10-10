@@ -21,19 +21,18 @@ export class ApplicationService {
         return this.applicationModel.create({
             driverId,
             type: ApplicationType.EMPLOYMENT,
-            status: ApplicationStatus.ONE,
             message,
             processedAt: null
         })
     }
 
-    // Проверить, есть ли активная заявка на employment
+    // Проверить, есть ли заявка в ожидании на employment
     async hasPendingEmploymentApplication(driverId: number): Promise<boolean> {
         const application = await this.applicationModel.findOne({
             where: {
                 driverId,
                 type: ApplicationType.EMPLOYMENT,
-                status: ApplicationStatus.ONE // Ищем заявки со статусом ONE (необработанные)
+                status: ApplicationStatus.PENDING // Ищем заявки со статусом ONE (необработанные)
             }
         })
 

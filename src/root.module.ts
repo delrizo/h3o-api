@@ -27,6 +27,10 @@ import { DriverModule } from './entity/driver/driver.module'
             autoLoadModels: true,
             dialect: 'postgres',
             logging: false,
+            timezone: '+03:00', // Временная зона Минска (UTC+3)
+            dialectOptions: {
+                useUTC: false // Отключаем использование UTC
+            },
             models: [DriverModel, TelegramModel, WorkSheetModel, ApplicationModel]
         }),
         AuthModule,

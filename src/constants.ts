@@ -8,10 +8,26 @@ export enum ApplicationType {
 
 export const APPLICATION_TYPES = Object.values(ApplicationType)
 
+/**
+ * Статусы жизненного цикла заявки
+ * @enum {string}
+ * @property {string} PENDING - Заявка создана и ожидает начала обработки
+ * @property {string} IN_PROGRESS - Заявка находится в процессе рассмотрения
+ * @property {string} APPROVED - Заявка успешно одобрена
+ * @property {string} REJECTED - Заявка отклонена по каким-либо причинам
+ * @property {string} ARCHIVED - Заявка перемещена в архив для хранения
+ */
 export enum ApplicationStatus {
-    ONE = 'one',
-    TWO = 'two',
-    THREE = 'three'
+    /** Ожидает рассмотрения */
+    PENDING = 'pending',
+    /** В работе */
+    IN_PROGRESS = 'in_progress',
+    /** Одобрена */
+    APPROVED = 'approved',
+    /** Отклонена */
+    REJECTED = 'rejected',
+    /** В архиве */
+    ARCHIVED = 'archived'
 }
 
 export const APPLICATION_STATUSES = Object.values(ApplicationStatus)

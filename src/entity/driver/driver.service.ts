@@ -4,6 +4,10 @@ import { DriverModel } from './driver.model'
 import { TelegramModel } from '../telegram/telegram.model'
 import { DriverStatus } from '~/constants'
 import { WorkSheetModel } from '../work-sheet/work-sheet.model'
+import { ApplicationModel } from '../application/application.model'
+import { GetDriversDto } from './driver.dto'
+import { WhereOptions } from 'sequelize'
+import { isNotEmptyObject } from 'class-validator'
 
 @Injectable()
 export class DriverService {
@@ -65,23 +69,33 @@ export class DriverService {
         return !!telegram
     }
 
-    async getDrivers(status?: DriverStatus): Promise<DriverModel[]> {
-        const whereCondition: any = {}
+    async getDrivers(dto: GetDriversDto): Promise<DriverModel[]> {
+        const whereDriver: WhereOptions<DriverModel> = {}
+        const whereApplication: WhereOptions<ApplicationModel> = {}
 
-        if (status) {
-            whereCondition.status = status
+        if (dto.driver_status) {
+            whereDriver.status = dto.driver_status
+        }
+
+        if (dto.application_type) {
+            whereApplication.type = dto.application_type
         }
 
         return this.driverModel.findAll({
-            where: whereCondition,
+            where: whereDriver,
             include: [
                 {
                     model: TelegramModel,
-                    required: false // false чтобы включить водителей без Telegram
+                    required: false
                 },
                 {
                     model: WorkSheetModel,
-                    required: false // false чтобы включить водителей без рабочего листа
+                    required: false
+                },
+                {
+                    model: ApplicationModel,
+                    where: whereApplication,
+                    required: isNotEmptyObject(whereApplication)
                 }
             ]
         })

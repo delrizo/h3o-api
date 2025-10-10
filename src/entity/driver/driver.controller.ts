@@ -1,6 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common'
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger'
-import { DRIVER_STATUSES, DriverStatus } from '~/constants'
+import { APPLICATION_TYPES, ApplicationType, DRIVER_STATUSES, DriverStatus } from '~/constants'
 import { DriverModel } from './driver.model'
 import { DriverService } from './driver.service'
 
@@ -11,16 +11,25 @@ import { DriverService } from './driver.service'
 export class DriverController {
     constructor(private driverService: DriverService) {}
 
-    @ApiOperation({ summary: 'Get drivers with optional status filter' })
+    @ApiOperation({ summary: 'Get drivers with optional filters' })
     @ApiResponse({ status: 200, type: [DriverModel] })
     @ApiQuery({
-        name: 'status',
+        name: 'driver_status',
         required: false,
         enum: DRIVER_STATUSES,
         description: 'Filter drivers by status'
     })
+    @ApiQuery({
+        name: 'application_type',
+        required: false,
+        enum: APPLICATION_TYPES,
+        description: 'Filter drivers by application type'
+    })
     @Get()
-    getDrivers(@Query('status') status?: DriverStatus) {
-        return this.driverService.getDrivers(status)
+    getDrivers(@Query('driver_status') driver_status?: DriverStatus, @Query('application_type') application_type?: ApplicationType) {
+        return this.driverService.getDrivers({
+            driver_status,
+            application_type
+        })
     }
 }

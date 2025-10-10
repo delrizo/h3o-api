@@ -23,7 +23,7 @@ export class ApplicationModel extends Model {
     @Column({
         type: DataType.ENUM(...APPLICATION_STATUSES),
         allowNull: false,
-        defaultValue: ApplicationStatus.ONE,
+        defaultValue: ApplicationStatus.PENDING,
         validate: {
             isIn: {
                 args: [APPLICATION_STATUSES],
