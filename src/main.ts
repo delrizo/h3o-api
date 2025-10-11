@@ -4,6 +4,7 @@ import { RootModule } from '~/root.module'
 import { ValidationPipe } from '@nestjs/common'
 import { seedDrivers } from '~/entity/seeds/driver.seed'
 import { Logger } from '@nestjs/common'
+import { writeFileSync } from 'node:fs'
 
 async function bootstrap() {
     const logger = new Logger('Bootstrap')
@@ -28,6 +29,8 @@ async function bootstrap() {
 
     const document = SwaggerModule.createDocument(app, config)
     SwaggerModule.setup('/api/docs', app, document)
+
+    writeFileSync('./swagger-spec.json', JSON.stringify(document, null, 2))
 
     await app.listen(process.env.PORT!)
 }
