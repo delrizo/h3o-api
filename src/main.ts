@@ -4,7 +4,6 @@ import { RootModule } from '~/root.module'
 import { ValidationPipe } from '@nestjs/common'
 import { seedDrivers } from '~/entity/seeds/driver.seed'
 import { Logger } from '@nestjs/common'
-import { writeFileSync } from 'node:fs'
 
 async function bootstrap() {
     const logger = new Logger('Bootstrap')
