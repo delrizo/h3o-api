@@ -28,7 +28,7 @@ async function bootstrap() {
     app.useGlobalPipes(new ValidationPipe({ transform: true }))
 
     const document = SwaggerModule.createDocument(app, config)
-    SwaggerModule.setup('/api/docs', app, document, { yamlDocumentUrl: 'api-yaml', jsonDocumentUrl: 'api-json' })
+    SwaggerModule.setup('/api/docs', app, document, { yamlDocumentUrl: '/api/yaml', jsonDocumentUrl: '/api/json' })
 
     await app.listen(process.env.PORT!)
 }
