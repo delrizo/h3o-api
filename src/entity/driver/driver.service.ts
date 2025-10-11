@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common'
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { DriverModel } from './driver.model'
 import { TelegramModel } from '../telegram/telegram.model'
 import { DriverStatus } from '~/constants'
 import { WorkSheetModel } from '../work-sheet/work-sheet.model'
 import { ApplicationModel } from '../application/application.model'
-import { GetDriversDto } from './driver.dto'
+import { DriverUpdateDto, GetDriversDto } from './driver.dto'
 import { WhereOptions } from 'sequelize'
 import { isNotEmptyObject } from 'class-validator'
 
@@ -99,5 +99,15 @@ export class DriverService {
                 }
             ]
         })
+    }
+
+    async update(id: number, dto: DriverUpdateDto) {
+        const driver = await this.driverModel.findByPk(id)
+
+        if (!driver) {
+            throw new HttpException('Not found', HttpStatus.NOT_FOUND)
+        }
+
+        return await driver.update(dto)
     }
 }

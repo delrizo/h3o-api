@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common'
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { ApplicationModel } from './application.model'
 import { ApplicationStatus, ApplicationType, DriverStatus } from '~/constants'
+import { ApplicationUpdateDto } from './application.dto'
 
 @Injectable()
 export class ApplicationService {
@@ -50,5 +51,15 @@ export class ApplicationService {
     // Получить заявку по ID
     async getApplicationById(id: number): Promise<ApplicationModel | null> {
         return this.applicationModel.findByPk(id)
+    }
+
+    async update(id: number, dto: ApplicationUpdateDto) {
+        const application = await this.applicationModel.findByPk(id)
+
+        if (!application) {
+            throw new HttpException('Not found', HttpStatus.NOT_FOUND)
+        }
+
+        return await application.update(dto)
     }
 }
