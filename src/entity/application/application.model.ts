@@ -1,13 +1,25 @@
 import { Column, DataType, Model, Table, ForeignKey } from 'sequelize-typescript'
 import { DriverModel } from '../driver/driver.model'
 import { APPLICATION_STATUSES, APPLICATION_TYPES, ApplicationStatus, ApplicationType } from '~/constants'
+import { ApiProperty } from '@nestjs/swagger'
 
 @Table({ tableName: 'applications' })
 export class ApplicationModel extends Model {
+    @ApiProperty({ example: 1, description: 'Telegram model id' })
+    declare id: number
+
+    @ApiProperty({ description: 'Telegram created date', type: Date })
+    declare createdAt: Date
+
+    @ApiProperty({ description: 'Telegram updated date', type: Date })
+    declare updatedAt: Date
+
+    @ApiProperty({ example: 1, description: 'Driver id' })
     @ForeignKey(() => DriverModel)
     @Column({ type: DataType.INTEGER, allowNull: false })
     declare driverId: number
 
+    @ApiProperty({ enum: ApplicationType, description: 'Application type' })
     @Column({
         type: DataType.ENUM(...APPLICATION_TYPES),
         allowNull: false,
@@ -20,6 +32,7 @@ export class ApplicationModel extends Model {
     })
     declare type: ApplicationType
 
+    @ApiProperty({ enum: ApplicationStatus, description: 'Application status' })
     @Column({
         type: DataType.ENUM(...APPLICATION_STATUSES),
         allowNull: false,
@@ -33,9 +46,7 @@ export class ApplicationModel extends Model {
     })
     declare status: ApplicationStatus
 
+    @ApiProperty({ example: 'message', description: 'Application message', required: false })
     @Column({ type: DataType.TEXT, allowNull: true })
     declare message?: string
-
-    @Column({ type: DataType.DATE, allowNull: true })
-    declare processedAt: Date
 }
