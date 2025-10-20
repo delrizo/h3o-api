@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger'
 import { IsEnum, IsOptional } from 'class-validator'
 import { ApplicationType, DriverStatus } from '~/constants'
 
@@ -12,6 +13,7 @@ export class GetDriversDto {
 }
 
 export class DriverUpdateDto {
+    @ApiProperty({ enum: DriverStatus, description: 'Driver status' })
     @IsEnum(DriverStatus, { message: 'Invalid application status' })
     @IsOptional()
     readonly status?: DriverStatus
