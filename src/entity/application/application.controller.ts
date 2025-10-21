@@ -9,7 +9,7 @@ import { ApplicationModel } from './application.model'
 @Controller('application')
 // @UseGuards(JwtAuthGuard)
 export class ApplicationController {
-    constructor(private applicationService: ApplicationService) {}
+    constructor(private service: ApplicationService) {}
 
     @ApiOperation({ summary: 'Update Driver Application' })
     @ApiResponse({ status: 200, type: ApplicationModel })
@@ -41,6 +41,6 @@ export class ApplicationController {
     })
     @Patch(':id')
     update(@Param('id', ParseIntPipe) id: number, @Body() dto: ApplicationUpdateDto) {
-        return this.applicationService.update(id, dto)
+        return this.service.update(id, dto)
     }
 }

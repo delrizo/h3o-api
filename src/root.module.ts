@@ -9,6 +9,7 @@ import { AuthModule } from '~/auth/auth.module'
 import { BotModule } from './telegram-bot/taxi-driver-bot/bot.module'
 import { ApplicationModel } from './entity/application/application.model'
 import { DriverModule } from './entity/driver/driver.module'
+import { WorkSheetModule } from './entity/work-sheet/work-sheet.module'
 
 @Module({
     imports: [
@@ -35,6 +36,7 @@ import { DriverModule } from './entity/driver/driver.module'
         }),
         AuthModule,
         DriverModule,
+        WorkSheetModule,
         BotModule
     ]
 })

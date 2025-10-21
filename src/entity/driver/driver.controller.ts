@@ -10,7 +10,7 @@ import { DriverUpdateDto } from './driver.dto'
 @Controller('driver')
 // @UseGuards(JwtAuthGuard)
 export class DriverController {
-    constructor(private driverService: DriverService) {}
+    constructor(private service: DriverService) {}
 
     @ApiOperation({ summary: 'Get drivers with optional filters' })
     @ApiResponse({ status: 200, type: [DriverModel] })
@@ -28,7 +28,7 @@ export class DriverController {
     })
     @Get()
     getDrivers(@Query('driver_status') driver_status?: DriverStatus, @Query('application_type') application_type?: ApplicationType) {
-        return this.driverService.getDrivers({
+        return this.service.getDrivers({
             driver_status,
             application_type
         })
@@ -64,6 +64,6 @@ export class DriverController {
     })
     @Patch(':id')
     update(@Param('id', ParseIntPipe) id: number, @Body() dto: DriverUpdateDto) {
-        return this.driverService.update(id, dto)
+        return this.service.update(id, dto)
     }
 }
