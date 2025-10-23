@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, ParseIntPipe, Patch, Query } from '@nestjs/common'
 import { ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger'
-import { APPLICATION_TYPES, ApplicationType, DRIVER_STATUSES, DriverStatus } from '~/constants'
+import { APPLICATION_TYPES_WITH_ALL, ApplicationTypeWithAll, DRIVER_STATUSES, DriverStatus } from '~/constants'
 import { DriverModel } from './driver.model'
 import { DriverService } from './driver.service'
 import { DriverUpdateDto } from './driver.dto'
@@ -23,11 +23,11 @@ export class DriverController {
     @ApiQuery({
         name: 'application_type',
         required: false,
-        enum: APPLICATION_TYPES,
-        description: 'Filter drivers by application type'
+        enum: APPLICATION_TYPES_WITH_ALL,
+        description: 'Filter drivers by application type or all'
     })
     @Get()
-    getDrivers(@Query('driver_status') driver_status?: DriverStatus, @Query('application_type') application_type?: ApplicationType) {
+    getDrivers(@Query('driver_status') driver_status?: DriverStatus, @Query('application_type') application_type?: ApplicationTypeWithAll) {
         return this.service.getDrivers({
             driver_status,
             application_type

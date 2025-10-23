@@ -2,12 +2,11 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { DriverModel } from './driver.model'
 import { TelegramModel } from '../telegram/telegram.model'
-import { DriverStatus } from '~/constants'
+import { ApplicationTypeWithAll, DriverStatus } from '~/constants'
 import { WorkSheetModel } from '../work-sheet/work-sheet.model'
 import { ApplicationModel } from '../application/application.model'
 import { DriverUpdateDto, GetDriversDto } from './driver.dto'
-import { WhereOptions } from 'sequelize'
-import { isNotEmptyObject } from 'class-validator'
+import { Includeable, WhereOptions } from 'sequelize'
 
 @Injectable()
 export class DriverService {
@@ -71,34 +70,74 @@ export class DriverService {
 
     async getDrivers(dto: GetDriversDto): Promise<DriverModel[]> {
         const whereDriver: WhereOptions<DriverModel> = {}
-        const whereApplication: WhereOptions<ApplicationModel> = {}
 
         if (dto.driver_status) {
             whereDriver.status = dto.driver_status
         }
 
-        if (dto.application_type) {
-            whereApplication.type = dto.application_type
+        const include: Includeable[] = [
+            {
+                model: TelegramModel,
+                required: false
+            },
+            {
+                model: WorkSheetModel,
+                required: false
+            }
+        ]
+
+        if (dto.application_type && dto.application_type === ApplicationTypeWithAll.ALL) {
+            include.push({
+                model: ApplicationModel,
+                required: true // Только водители с заявками
+            })
+        } else if (dto.application_type && dto.application_type) {
+            include.push({
+                model: ApplicationModel,
+                where: { type: dto.application_type },
+                required: true // Только водители с заявками этого типа
+            })
+        } else {
+            include.push({
+                model: ApplicationModel,
+                required: false // Если application_type нет - водители с заявками и без
+            })
         }
 
         return this.driverModel.findAll({
             where: whereDriver,
-            include: [
-                {
-                    model: TelegramModel,
-                    required: false
-                },
-                {
-                    model: WorkSheetModel,
-                    required: false
-                },
-                {
-                    model: ApplicationModel,
-                    where: whereApplication,
-                    required: isNotEmptyObject(whereApplication)
-                }
-            ]
+            include
         })
+
+        // const whereDriver: WhereOptions<DriverModel> = {}
+        // const whereApplication: WhereOptions<ApplicationModel> = {}
+
+        // if (dto.driver_status) {
+        //     whereDriver.status = dto.driver_status
+        // }
+
+        // if (dto.application_type && dto.application_type !== ApplicationTypeWithAll.ALL) {
+        //     whereApplication.type = dto.application_type
+        // }
+
+        // return this.driverModel.findAll({
+        //     where: whereDriver,
+        //     include: [
+        //         {
+        //             model: TelegramModel,
+        //             required: false
+        //         },
+        //         {
+        //             model: WorkSheetModel,
+        //             required: false
+        //         },
+        //         {
+        //             model: ApplicationModel,
+        //             where: whereApplication,
+        //             required: isNotEmptyObject(whereApplication)
+        //         }
+        //     ]
+        // })
     }
 
     async update(id: number, dto: DriverUpdateDto) {

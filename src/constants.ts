@@ -8,6 +8,17 @@ export enum ApplicationType {
 
 export const APPLICATION_TYPES = Object.values(ApplicationType)
 
+export enum ApplicationTypeWithAll {
+    ALL = 'all',
+    EMPLOYMENT = 'employment',
+    CONTACT_REQUEST = 'contact_request',
+    STATUS_UPGRADE = 'status_upgrade',
+    SUPPORT = 'support',
+    OTHER = 'other'
+}
+
+export const APPLICATION_TYPES_WITH_ALL = Object.values(ApplicationTypeWithAll)
+
 /**
  * Статусы жизненного цикла заявки
  * @enum {string}
