@@ -1,11 +1,9 @@
+import { ApiProperty } from '@nestjs/swagger'
 import { IsEnum, IsOptional } from 'class-validator'
-import { ApplicationStatus, ApplicationType } from '~/constants'
+import { ApplicationStatus } from '~/constants'
 
 export class ApplicationUpdateDto {
-    @IsEnum(ApplicationType, { message: 'Invalid application type' })
-    @IsOptional()
-    readonly type?: ApplicationType
-
+    @ApiProperty({ enum: ApplicationStatus, description: 'Application status' })
     @IsEnum(ApplicationStatus, { message: 'Invalid application status' })
     @IsOptional()
     readonly status?: ApplicationStatus
