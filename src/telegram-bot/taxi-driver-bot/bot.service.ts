@@ -31,4 +31,8 @@ export class BotService {
     getEmploymentButton() {
         return Markup.inlineKeyboard([[Markup.button.callback('📝 Оставить заявку', 'employment')]])
     }
+
+    getButton(text: string, action: string) {
+        return Markup.inlineKeyboard([[Markup.button.callback(text, action)]])
+    }
 }

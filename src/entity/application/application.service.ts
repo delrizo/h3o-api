@@ -40,6 +40,17 @@ export class ApplicationService {
         return !!application
     }
 
+    async getDriverEmploymentApplication(driverId: number): Promise<ApplicationModel | null> {
+        const application = await this.applicationModel.findOne({
+            where: {
+                driverId,
+                type: ApplicationType.EMPLOYMENT
+            }
+        })
+
+        return application
+    }
+
     // Получить заявки водителя
     async getDriverApplications(driverId: number): Promise<ApplicationModel[]> {
         return this.applicationModel.findAll({

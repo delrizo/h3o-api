@@ -8,6 +8,12 @@ export enum ApplicationType {
 
 export const APPLICATION_TYPES = Object.values(ApplicationType)
 
+export enum ReapplyType {
+    EMPLOYMENT = 'reapply_employment'
+}
+
+export const REAPPLY_TYPES = Object.values(ReapplyType)
+
 export enum ApplicationTypeWithAll {
     ALL = 'all',
     EMPLOYMENT = 'employment',
