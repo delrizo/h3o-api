@@ -10,6 +10,7 @@ import { BotModule } from './telegram-bot/taxi-driver-bot/bot.module'
 import { ApplicationModel } from './entity/application/application.model'
 import { DriverModule } from './entity/driver/driver.module'
 import { WorkSheetModule } from './entity/work-sheet/work-sheet.module'
+import { CheckModel } from './entity/check/check.model'
 
 @Module({
     imports: [
@@ -32,7 +33,7 @@ import { WorkSheetModule } from './entity/work-sheet/work-sheet.module'
             dialectOptions: {
                 useUTC: false // Отключаем использование UTC
             },
-            models: [DriverModel, TelegramModel, WorkSheetModel, ApplicationModel]
+            models: [DriverModel, TelegramModel, WorkSheetModel, ApplicationModel, CheckModel]
         }),
         AuthModule,
         DriverModule,

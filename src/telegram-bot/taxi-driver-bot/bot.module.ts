@@ -12,6 +12,9 @@ import { DriverService } from '~/entity/driver/driver.service'
 import { DriverModule } from '~/entity/driver/driver.module'
 import { ApplicationModule } from '~/entity/application/application.module'
 import { ApplicationService } from '~/entity/application/application.service'
+import { MessageService } from './message.service'
+import { KeyboardService } from './keyboard.service'
+import { ButtonService } from './button.service'
 
 @Module({
     imports: [
@@ -28,6 +31,6 @@ import { ApplicationService } from '~/entity/application/application.service'
         DriverModule,
         ApplicationModule
     ],
-    providers: [BotService, BotUpdate, DriverService, ApplicationService]
+    providers: [BotService, BotUpdate, DriverService, ApplicationService, MessageService, KeyboardService, ButtonService]
 })
 export class BotModule {}

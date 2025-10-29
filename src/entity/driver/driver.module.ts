@@ -6,11 +6,12 @@ import { DriverService } from './driver.service'
 import { TelegramModel } from '../telegram/telegram.model'
 import { WorkSheetModel } from '../work-sheet/work-sheet.model'
 import { ApplicationModel } from '../application/application.model'
+import { CheckModel } from '../check/check.model'
 
 @Module({
     controllers: [DriverController],
     providers: [DriverService],
-    imports: [SequelizeModule.forFeature([DriverModel, TelegramModel, WorkSheetModel, ApplicationModel])],
+    imports: [SequelizeModule.forFeature([DriverModel, TelegramModel, WorkSheetModel, ApplicationModel, CheckModel])],
     exports: [DriverService]
 })
 export class DriverModule {}

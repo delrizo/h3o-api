@@ -4,6 +4,7 @@ import { TelegramModel } from '~/entity/telegram/telegram.model'
 import { WorkSheetModel } from '~/entity/work-sheet/work-sheet.model'
 import { ApplicationModel } from '../application/application.model'
 import { ApiProperty } from '@nestjs/swagger'
+import { CheckModel } from '../check/check.model'
 
 @Table({ tableName: 'drivers' })
 export class DriverModel extends Model {
@@ -40,4 +41,8 @@ export class DriverModel extends Model {
     @ApiProperty({ description: 'Driver applications', type: [ApplicationModel] })
     @HasMany(() => ApplicationModel)
     declare applications: ApplicationModel[]
+
+    @ApiProperty({ description: 'Driver checks', type: [CheckModel] })
+    @HasMany(() => CheckModel)
+    declare checks: CheckModel[]
 }

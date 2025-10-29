@@ -60,12 +60,16 @@ export class DriverService {
         }
     }
 
-    async isDriverExists(telegramId: number): Promise<boolean> {
-        const telegram = await this.telegramModel.findOne({
-            where: { telegram_id: telegramId }
+    async getDriverByTelegramId(telegramId: number): Promise<DriverModel | null> {
+        return this.driverModel.findOne({
+            include: [
+                {
+                    model: TelegramModel,
+                    where: { telegram_id: telegramId },
+                    required: true
+                }
+            ]
         })
-
-        return !!telegram
     }
 
     async getDrivers(dto: GetDriversDto): Promise<DriverModel[]> {
