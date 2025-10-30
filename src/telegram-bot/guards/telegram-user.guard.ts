@@ -4,13 +4,12 @@ import { Context } from 'telegraf'
 
 @Injectable()
 export class TelegramUserGuard implements CanActivate {
-    canActivate(context: ExecutionContext): boolean {
+    async canActivate(context: ExecutionContext): Promise<boolean> {
         const ctx = TelegrafExecutionContext.create(context)
-        const { from } = ctx.getContext<Context>()
+        const botContext = ctx.getContext<Context>()
 
-        if (!from) {
-            const botContext = ctx.getContext<Context>()
-            botContext.reply('Не удалось получить информацию')
+        if (!botContext.from) {
+            await botContext.reply('Не удалось получить информацию')
             return false
         }
 

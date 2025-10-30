@@ -4,7 +4,6 @@ import { MessageService } from './message.service'
 import { DriverService } from '~/entity/driver/driver.service'
 import { User } from 'telegraf/types'
 import { ApplicationService } from '~/entity/application/application.service'
-import { MESSAGE } from './message/message'
 import { ApplicationStatus } from '~/constants'
 import { ButtonService } from './button.service'
 
@@ -37,9 +36,8 @@ export class BotService {
 
     async employmentHandler(user: User) {
         const driver = await this.driverService.findDriverByTelegramId(user.id)
-
         if (!driver) {
-            return { message: MESSAGE.ERROR.DOES_NOT_EXIST }
+            return { message: this.messageService.driverNotFoundByTelegramId() }
         }
 
         const application = await this.applicationService.getDriverEmploymentApplication(driver.id)
@@ -65,5 +63,39 @@ export class BotService {
         }
 
         return { message }
+    }
+
+    async reapplyEmploymentHandler(user: User) {
+        const driver = await this.driverService.findDriverByTelegramId(user.id)
+        if (!driver) {
+            return { message: this.messageService.driverNotFoundByTelegramId() }
+        }
+
+        const application = await this.applicationService.getDriverEmploymentApplication(driver.id)
+        if (!application) {
+            await this.applicationService.createEmploymentApplication(
+                driver.id,
+                `Заявка на трудоустройство от ${user.first_name} (@${user?.username})`
+            )
+        }
+
+        if (
+            !application?.status ||
+            application.status === ApplicationStatus.PENDING ||
+            application.status === ApplicationStatus.IN_PROGRESS
+        ) {
+            return { message: this.messageService.createEmployment(application?.status) }
+        }
+
+        await this.applicationService.update(application.id, { status: ApplicationStatus.PENDING })
+
+        return { message: this.messageService.reapplySuccess() }
+    }
+
+    async blockHandler(user: User) {
+        const driver = await this.driverService.findDriverByTelegramId(user.id)
+        if (!driver) {
+            return { message: this.messageService.driverNotFoundByTelegramId() }
+        }
     }
 }
