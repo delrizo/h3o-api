@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, ParseIntPipe, Patch, Query } from '@nestjs/common'
 import { ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger'
-import { APPLICATION_TYPES_WITH_ALL, ApplicationTypeWithAll, DRIVER_STATUSES, DriverStatus } from '~/constants'
+import { APPLICATION_TYPES_WITH_ALL, ApplicationTypeWithAll, DRIVER_STATUSES, DriverStatus } from '~/constants/shared'
 import { DriverModel } from './driver.model'
 import { DriverService } from './driver.service'
 import { DriverUpdateDto } from './driver.dto'

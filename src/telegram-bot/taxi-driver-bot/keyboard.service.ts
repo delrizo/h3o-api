@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { Markup } from 'telegraf'
-import { DriverStatus } from '~/constants'
-import { MENU_MESSAGE } from './message/menu.message'
+import { DriverStatus } from '~/constants/shared'
+import { MENU_MESSAGE } from '../../constants/message/menu.message'
 
 @Injectable()
 export class KeyboardService {

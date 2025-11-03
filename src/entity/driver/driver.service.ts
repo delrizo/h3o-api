@@ -2,11 +2,12 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { DriverModel } from './driver.model'
 import { TelegramModel } from '../telegram/telegram.model'
-import { ApplicationTypeWithAll, DriverStatus } from '~/constants'
+import { ApplicationTypeWithAll, DriverStatus } from '~/constants/shared'
 import { WorkSheetModel } from '../work-sheet/work-sheet.model'
 import { ApplicationModel } from '../application/application.model'
 import { DriverUpdateDto, GetDriversDto } from './driver.dto'
 import { Includeable, WhereOptions } from 'sequelize'
+import { NotificationService } from '~/notification/notification.service'
 
 @Injectable()
 export class DriverService {
@@ -14,7 +15,8 @@ export class DriverService {
         @InjectModel(DriverModel)
         private driverModel: typeof DriverModel,
         @InjectModel(TelegramModel)
-        private telegramModel: typeof TelegramModel
+        private telegramModel: typeof TelegramModel,
+        private notificationService: NotificationService
     ) {}
 
     async findDriverByTelegramId(telegramId: number): Promise<DriverModel | null> {
@@ -145,12 +147,23 @@ export class DriverService {
     }
 
     async update(id: number, dto: DriverUpdateDto) {
-        const driver = await this.driverModel.findByPk(id)
+        const driver = await this.driverModel.findByPk(id, {
+            include: [
+                {
+                    model: TelegramModel,
+                    required: false
+                }
+            ]
+        })
 
         if (!driver) {
             throw new HttpException('Not found', HttpStatus.NOT_FOUND)
         }
 
-        return await driver.update(dto)
+        const update = await driver.update(dto)
+        if (driver.telegram?.telegram_id && 'status' in dto && dto.status) {
+            await this.notificationService.notifyDriverStatusChange(driver.telegram.telegram_id, dto.status)
+        }
+        return update
     }
 }

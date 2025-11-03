@@ -1,4 +1,4 @@
-import { ApplicationStatus } from '~/constants'
+import { ApplicationStatus } from '~/constants/shared'
 
 export const EMPLOYMENT_MESSAGE = {
     CREATED:

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript'
 import { DriverModel } from '~/entity/driver/driver.model'
-import { ApplicationStatus } from '~/constants'
+import { ApplicationStatus } from '~/constants/shared'
 
 @Table({ tableName: 'checks' })
 export class CheckModel extends Model {

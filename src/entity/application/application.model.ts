@@ -1,6 +1,6 @@
 import { Column, DataType, Model, Table, ForeignKey } from 'sequelize-typescript'
 import { DriverModel } from '../driver/driver.model'
-import { APPLICATION_STATUSES, APPLICATION_TYPES, ApplicationStatus, ApplicationType } from '~/constants'
+import { APPLICATION_STATUSES, APPLICATION_TYPES, ApplicationStatus, ApplicationType } from '~/constants/shared'
 import { ApiProperty } from '@nestjs/swagger'
 
 @Table({ tableName: 'applications' })

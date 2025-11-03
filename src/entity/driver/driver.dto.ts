@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsEnum, IsOptional } from 'class-validator'
-import { ApplicationTypeWithAll, DriverStatus } from '~/constants'
+import { ApplicationTypeWithAll, DriverStatus } from '~/constants/shared'
 
 export class GetDriversDto {
     @IsEnum(DriverStatus, { message: 'Invalid driver status' })

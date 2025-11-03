@@ -11,6 +11,8 @@ import { ApplicationModel } from './entity/application/application.model'
 import { DriverModule } from './entity/driver/driver.module'
 import { WorkSheetModule } from './entity/work-sheet/work-sheet.module'
 import { CheckModel } from './entity/check/check.model'
+import { TelegrafModule } from 'nestjs-telegraf'
+import { session } from 'telegraf'
 
 @Module({
     imports: [
@@ -34,6 +36,12 @@ import { CheckModel } from './entity/check/check.model'
                 useUTC: false // Отключаем использование UTC
             },
             models: [DriverModel, TelegramModel, WorkSheetModel, ApplicationModel, CheckModel]
+        }),
+        TelegrafModule.forRootAsync({
+            useFactory: () => ({
+                token: process.env.TELEGRAM_BOT_TOKEN!,
+                middlewares: [session()]
+            })
         }),
         AuthModule,
         DriverModule,

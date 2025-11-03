@@ -3,7 +3,7 @@ import { DriverModel } from '../driver/driver.model'
 import { TelegramModel } from '../telegram/telegram.model'
 import { WorkSheetModel } from '../work-sheet/work-sheet.model'
 import { ApplicationModel } from '../application/application.model'
-import { DRIVER_STATUSES, APPLICATION_TYPES, APPLICATION_STATUSES } from '~/constants'
+import { DRIVER_STATUSES, APPLICATION_TYPES, APPLICATION_STATUSES } from '~/constants/shared'
 
 export const seedDrivers = async () => {
     // Очистка таблиц

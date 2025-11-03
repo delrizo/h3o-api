@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common'
 import { KeyboardService } from './keyboard.service'
-import { MessageService } from './message.service'
 import { DriverService } from '~/entity/driver/driver.service'
 import { User } from 'telegraf/types'
 import { ApplicationService } from '~/entity/application/application.service'
-import { ApplicationStatus } from '~/constants'
+import { ApplicationStatus } from '~/constants/shared'
 import { ButtonService } from './button.service'
+import { DriverModel } from '~/entity/driver/driver.model'
+import { MessageService } from '~/message/message.service'
 
 @Injectable()
 export class BotService {
@@ -34,17 +35,12 @@ export class BotService {
         }
     }
 
-    async employmentHandler(user: User) {
-        const driver = await this.driverService.findDriverByTelegramId(user.id)
-        if (!driver) {
-            return { message: this.messageService.driverNotFoundByTelegramId() }
-        }
-
+    async employmentHandler(driver: DriverModel) {
         const application = await this.applicationService.getDriverEmploymentApplication(driver.id)
         if (!application) {
             await this.applicationService.createEmploymentApplication(
                 driver.id,
-                `Заявка на трудоустройство от ${user.first_name} (@${user?.username})`
+                `Заявка на трудоустройство от ${driver.telegram?.first_name} (@${driver.telegram?.username})`
             )
         }
 
@@ -65,17 +61,12 @@ export class BotService {
         return { message }
     }
 
-    async reapplyEmploymentHandler(user: User) {
-        const driver = await this.driverService.findDriverByTelegramId(user.id)
-        if (!driver) {
-            return { message: this.messageService.driverNotFoundByTelegramId() }
-        }
-
+    async reapplyEmploymentHandler(driver: DriverModel) {
         const application = await this.applicationService.getDriverEmploymentApplication(driver.id)
         if (!application) {
             await this.applicationService.createEmploymentApplication(
                 driver.id,
-                `Заявка на трудоустройство от ${user.first_name} (@${user?.username})`
+                `Заявка на трудоустройство от ${driver.telegram?.first_name} (@${driver.telegram?.username})`
             )
         }
 
@@ -92,10 +83,8 @@ export class BotService {
         return { message: this.messageService.reapplySuccess() }
     }
 
-    async blockHandler(user: User) {
-        const driver = await this.driverService.findDriverByTelegramId(user.id)
-        if (!driver) {
-            return { message: this.messageService.driverNotFoundByTelegramId() }
-        }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    blockHandler(driver: DriverModel) {
+        return { message: this.messageService.blockDetails() }
     }
 }

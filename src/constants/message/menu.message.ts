@@ -1,4 +1,4 @@
-import { DriverStatus } from '~/constants'
+import { DriverStatus } from '~/constants/shared'
 
 export const MENU_MESSAGE = {
     MAIN: {

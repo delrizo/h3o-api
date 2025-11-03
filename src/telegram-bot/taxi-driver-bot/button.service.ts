@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { Markup } from 'telegraf'
-import { ReapplyType } from '~/constants'
-import { REAPPLY_MESSAGE } from './message/reapply.message'
+import { ReapplyType } from '~/constants/shared'
+import { REAPPLY_MESSAGE } from '../../constants/message/reapply.message'
 
 @Injectable()
 export class ButtonService {

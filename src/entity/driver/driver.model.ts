@@ -1,5 +1,5 @@
 import { Column, DataType, HasMany, HasOne, Model, Table } from 'sequelize-typescript'
-import { DriverStatus, DRIVER_STATUSES } from '~/constants'
+import { DriverStatus, DRIVER_STATUSES } from '~/constants/shared'
 import { TelegramModel } from '~/entity/telegram/telegram.model'
 import { WorkSheetModel } from '~/entity/work-sheet/work-sheet.model'
 import { ApplicationModel } from '../application/application.model'

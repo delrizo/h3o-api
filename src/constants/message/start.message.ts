@@ -1,4 +1,4 @@
-import { DriverStatus } from '~/constants'
+import { DriverStatus } from '~/constants/shared'
 
 export const START_MESSAGE = {
     FIRST: `

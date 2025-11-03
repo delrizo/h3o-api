@@ -4,10 +4,13 @@ import { UseGuards } from '@nestjs/common'
 import { TelegramUserGuard } from '../guards/telegram-user.guard'
 import { TelegramUser } from '../decorators/telegram-user.decorator'
 import type { User } from 'telegraf/types'
-import { ReapplyType } from '~/constants'
+import { ReapplyType } from '~/constants/shared'
 import { BotService } from './bot.service'
-import { MENU_MESSAGE } from './message/menu.message'
+import { MENU_MESSAGE } from '../../constants/message/menu.message'
 import { TelegramDriverGuard } from '../guards/telegram-driver.guard'
+import { TelegramDriver } from '../decorators/telegram-driver.decorator'
+import { DriverModel } from '~/entity/driver/driver.model'
+import { TelegramDriverBlockGuard } from '../guards/telegram-driver-block.guard'
 
 @Update()
 export class BotUpdate {
@@ -22,28 +25,29 @@ export class BotUpdate {
     }
 
     @Hears(MENU_MESSAGE.MAIN.one.CREATE_EMPLOYMENT)
-    @UseGuards(TelegramDriverGuard)
-    async createEmployment(@TelegramUser() user: User, @Ctx() ctx: Context) {
-        const { message, button } = await this.botService.employmentHandler(user)
+    @UseGuards(TelegramDriverGuard, TelegramDriverBlockGuard)
+    async createEmployment(@TelegramDriver() driver: DriverModel, @Ctx() ctx: Context) {
+        const { message, button } = await this.botService.employmentHandler(driver)
 
         await ctx.reply(message, button)
     }
 
     @Action(ReapplyType.EMPLOYMENT)
-    @UseGuards(TelegramUserGuard)
-    async reapplyEmployment(@TelegramUser() user: User, @Ctx() ctx: Context) {
+    @UseGuards(TelegramDriverGuard, TelegramDriverBlockGuard)
+    async reapplyEmployment(@TelegramDriver() driver: DriverModel, @Ctx() ctx: Context) {
         await ctx.answerCbQuery()
 
-        const { message } = await this.botService.reapplyEmploymentHandler(user)
+        const { message } = await this.botService.reapplyEmploymentHandler(driver)
 
         await ctx.reply(message)
     }
 
     @Hears(MENU_MESSAGE.MAIN.three.BLOCK)
-    @UseGuards(TelegramUserGuard)
-    async block(@TelegramUser() user: User, @Ctx() ctx: Context) {
-        // const { message } = await this.botService.blockHandler(user)
-        // await ctx.reply(message)
+    @UseGuards(TelegramDriverGuard)
+    async block(@TelegramDriver() driver: DriverModel, @Ctx() ctx: Context) {
+        const { message } = this.botService.blockHandler(driver)
+
+        await ctx.reply(message)
     }
 
     // @Command('checks')

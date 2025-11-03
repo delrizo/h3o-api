@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { ApplicationModel } from './application.model'
-import { ApplicationStatus, ApplicationType, DriverStatus } from '~/constants'
+import { ApplicationStatus, ApplicationType, DriverStatus } from '~/constants/shared'
 import { ApplicationUpdateDto } from './application.dto'
 
 @Injectable()
