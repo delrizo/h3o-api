@@ -58,7 +58,7 @@ export class UploadChecksScene {
             const response = await axios.get(fileLink.href, { responseType: 'arraybuffer' })
             const photoBuffer = Buffer.from(response.data)
 
-            await this.checkService.createTelegramCheck(driver, photos, photoBuffer)
+            await this.checkService.createTelegramCheck(driver, photoBuffer)
 
             await ctx.replyWithPhoto(
                 { source: photoBuffer },

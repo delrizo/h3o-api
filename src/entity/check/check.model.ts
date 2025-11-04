@@ -19,37 +19,6 @@ export class CheckModel extends Model {
     @Column({ type: DataType.INTEGER, allowNull: false })
     declare driverId: number
 
-    @ApiProperty({
-        description: 'Array of Telegram photo objects in different sizes',
-        example: [
-            {
-                file_id: 'AgACAgIAAxkBAAICRmkKCUz23hMRSdEkO97qmeBukx7HAAL4DWsbX25QSHsTpFYPbexoAQADAgADcwADNgQ',
-                file_unique_id: 'AQAD-A1rG19uUEh4',
-                file_size: 863,
-                width: 90,
-                height: 38
-            },
-            {
-                file_id: 'AgACAgIAAxkBAAICRmkKCUz23hMRSdEkO97qmeBukx7HAAL4DWsbX25QSHsTpFYPbexoAQADAgADbQADNgQ',
-                file_unique_id: 'AQAD-A1rG19uUEhy',
-                file_size: 13202,
-                width: 320,
-                height: 134
-            }
-        ]
-    })
-    @Column({
-        type: DataType.JSON, // Храним массив объектов с фото разных размеров
-        allowNull: false
-    })
-    declare photos: Array<{
-        file_id: string
-        file_unique_id: string
-        file_size: number
-        width: number
-        height: number
-    }>
-
     @ApiProperty({ description: 'Original photo binary data', type: String })
     @Column({
         type: DataType.BLOB('long'),

@@ -10,10 +10,9 @@ export class CheckService {
         private checkModel: typeof CheckModel
     ) {}
 
-    createTelegramCheck(driver: DriverModel, photos: any[], photo: Buffer) {
+    createTelegramCheck(driver: DriverModel, photo: Buffer) {
         return this.checkModel.create({
             driverId: driver.id,
-            photos,
             photo,
             comment: 'Загружен через телеграм бота'
         })
