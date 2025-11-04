@@ -50,6 +50,13 @@ export class CheckModel extends Model {
         height: number
     }>
 
+    @ApiProperty({ description: 'Original photo binary data', type: String })
+    @Column({
+        type: DataType.BLOB('long'),
+        allowNull: false
+    })
+    declare photo: Buffer
+
     @ApiProperty({ enum: ApplicationStatus, description: 'Check status' })
     @Column({
         type: DataType.ENUM(...Object.values(ApplicationStatus)),
