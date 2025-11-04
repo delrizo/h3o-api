@@ -19,34 +19,36 @@ export class CheckModel extends Model {
     @Column({ type: DataType.INTEGER, allowNull: false })
     declare driverId: number
 
-    @ApiProperty({ description: 'Check photo binary data', type: String })
+    @ApiProperty({
+        description: 'Array of Telegram photo objects in different sizes',
+        example: [
+            {
+                file_id: 'AgACAgIAAxkBAAICRmkKCUz23hMRSdEkO97qmeBukx7HAAL4DWsbX25QSHsTpFYPbexoAQADAgADcwADNgQ',
+                file_unique_id: 'AQAD-A1rG19uUEh4',
+                file_size: 863,
+                width: 90,
+                height: 38
+            },
+            {
+                file_id: 'AgACAgIAAxkBAAICRmkKCUz23hMRSdEkO97qmeBukx7HAAL4DWsbX25QSHsTpFYPbexoAQADAgADbQADNgQ',
+                file_unique_id: 'AQAD-A1rG19uUEhy',
+                file_size: 13202,
+                width: 320,
+                height: 134
+            }
+        ]
+    })
     @Column({
-        type: DataType.BLOB('long'), // Используем BLOB для хранения бинарных данных
+        type: DataType.JSON, // Храним массив объектов с фото разных размеров
         allowNull: false
     })
-    declare photoData: Buffer
-
-    @ApiProperty({ example: 'photo.jpg', description: 'Original file name' })
-    @Column({
-        type: DataType.STRING,
-        allowNull: false
-    })
-    declare fileName: string
-
-    @ApiProperty({ example: 1024, description: 'File size in bytes' })
-    @Column({
-        type: DataType.INTEGER,
-        allowNull: false
-    })
-    declare fileSize: number
-
-    @ApiProperty({ example: 'image/jpeg', description: 'MIME type' })
-    @Column({
-        type: DataType.STRING,
-        allowNull: false,
-        defaultValue: 'image/jpeg'
-    })
-    declare mimeType: string
+    declare photos: Array<{
+        file_id: string
+        file_unique_id: string
+        file_size: number
+        width: number
+        height: number
+    }>
 
     @ApiProperty({ enum: ApplicationStatus, description: 'Check status' })
     @Column({
@@ -55,22 +57,6 @@ export class CheckModel extends Model {
         defaultValue: ApplicationStatus.PENDING
     })
     declare status: ApplicationStatus
-
-    @ApiProperty({ example: 'CHECK_123', description: 'Check unique identifier' })
-    @Column({
-        type: DataType.STRING,
-        allowNull: false,
-        unique: true
-    })
-    declare checkCode: string
-
-    @ApiProperty({ example: 'jpg', description: 'File extension' })
-    @Column({
-        type: DataType.STRING,
-        allowNull: false,
-        defaultValue: 'jpg'
-    })
-    declare fileExtension: string
 
     @ApiProperty({ example: 'Загружен через бота', description: 'Комментарий к чеку' })
     @Column({

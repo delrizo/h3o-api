@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common'
+import { forwardRef, Module } from '@nestjs/common'
 import { TelegrafModule } from 'nestjs-telegraf'
 import { BotService } from './bot.service'
 import { BotUpdate } from './bot.update'
@@ -12,15 +12,19 @@ import { ApplicationService } from '~/entity/application/application.service'
 import { KeyboardService } from './keyboard.service'
 import { ButtonService } from './button.service'
 import { MessageModule } from '~/message/message.module'
+import { UploadChecksScene } from './scenes/upload-checks.scene'
+import { CheckModule } from '~/entity/check/check.module'
 
 @Module({
     imports: [
         TelegrafModule,
         SequelizeModule.forFeature([DriverModel, TelegramModel, ApplicationModel]),
-        DriverModule,
+        forwardRef(() => DriverModule),
         ApplicationModule,
-        MessageModule
+        MessageModule,
+        CheckModule
     ],
-    providers: [BotService, BotUpdate, ApplicationService, KeyboardService, ButtonService]
+    providers: [BotService, BotUpdate, ApplicationService, KeyboardService, ButtonService, UploadChecksScene],
+    exports: [BotService]
 })
 export class BotModule {}

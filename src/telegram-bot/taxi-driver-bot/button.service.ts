@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { Markup } from 'telegraf'
-import { ReapplyType } from '~/constants/shared'
+import { ACTION } from '~/constants/shared'
 import { REAPPLY_MESSAGE } from '../../constants/message/reapply.message'
+import { CHECKS_MESSAGE } from '~/constants/message/checks.message'
 
 @Injectable()
 export class ButtonService {
@@ -10,6 +11,10 @@ export class ButtonService {
     }
 
     reapplyEmploymentButton() {
-        return this.getButtons([[[REAPPLY_MESSAGE.REAPPLY, ReapplyType.EMPLOYMENT]]])
+        return this.getButtons([[[REAPPLY_MESSAGE.REAPPLY, ACTION.REAPPLY_EMPLOYMENT]]])
+    }
+
+    checksButton() {
+        return this.getButtons([[[CHECKS_MESSAGE.UPLOAD, ACTION.UPLOAD_CHECKS]]])
     }
 }

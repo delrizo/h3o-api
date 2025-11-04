@@ -1,11 +1,10 @@
-import { Module } from '@nestjs/common'
+import { forwardRef, Module } from '@nestjs/common'
 import { NotificationService } from '~/notification/notification.service'
-import { MessageModule } from '~/message/message.module'
-import { TelegrafModule } from 'nestjs-telegraf'
+import { BotModule } from '~/telegram-bot/taxi-driver-bot/bot.module'
 
 @Module({
     providers: [NotificationService],
-    imports: [TelegrafModule, MessageModule],
+    imports: [forwardRef(() => BotModule)],
     exports: [NotificationService]
 })
 export class NotificationModule {}

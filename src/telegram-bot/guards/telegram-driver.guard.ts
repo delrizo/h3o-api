@@ -3,12 +3,14 @@ import { DriverService } from '~/entity/driver/driver.service'
 import { TelegrafExecutionContext } from 'nestjs-telegraf'
 import { Context } from 'telegraf'
 import { MessageService } from '~/message/message.service'
+import { KeyboardService } from '../taxi-driver-bot/keyboard.service'
 
 @Injectable()
 export class TelegramDriverGuard implements CanActivate {
     constructor(
         private readonly driverService: DriverService,
-        private readonly messageService: MessageService
+        private readonly messageService: MessageService,
+        private readonly keyboardService: KeyboardService
     ) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -17,14 +19,18 @@ export class TelegramDriverGuard implements CanActivate {
 
         if (!botContext.from) {
             const message = this.messageService.telegramNotFound('from')
-            await botContext.reply(message)
+            const keyboard = this.keyboardService.resetMenu()
+
+            await botContext.reply(message, keyboard)
             return false
         }
 
         const driver = await this.driverService.findDriverByTelegramId(botContext.from.id)
         if (!driver) {
             const message = this.messageService.telegramNotFound('driver')
-            await botContext.reply(message)
+            const keyboard = this.keyboardService.resetMenu()
+
+            await botContext.reply(message, keyboard)
             return false
         }
 

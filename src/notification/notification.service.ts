@@ -1,19 +1,15 @@
-import { Injectable } from '@nestjs/common'
-import { Telegraf } from 'telegraf'
-import { InjectBot } from 'nestjs-telegraf'
+import { forwardRef, Inject, Injectable } from '@nestjs/common'
 import { DriverStatus } from '~/constants/shared'
-import { MessageService } from '~/message/message.service'
+import { BotService } from '~/telegram-bot/taxi-driver-bot/bot.service'
 
 @Injectable()
 export class NotificationService {
     constructor(
-        @InjectBot() private readonly bot: Telegraf,
-        private readonly messageService: MessageService
+        @Inject(forwardRef(() => BotService))
+        private readonly botService: BotService
     ) {}
 
     async notifyDriverStatusChange(telegramId: number, newStatus: DriverStatus) {
-        const message = this.messageService.getStatusChangeMessage(newStatus)
-
-        await this.bot.telegram.sendMessage(telegramId, message)
+        await this.botService.driverStatusChange(telegramId, newStatus)
     }
 }

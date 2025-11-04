@@ -1,5 +1,5 @@
 import { SequelizeModule } from '@nestjs/sequelize'
-import { Module } from '@nestjs/common'
+import { forwardRef, Module } from '@nestjs/common'
 import { DriverModel } from './driver.model'
 import { DriverController } from './driver.controller'
 import { DriverService } from './driver.service'
@@ -12,7 +12,10 @@ import { NotificationModule } from '~/notification/notification.module'
 @Module({
     controllers: [DriverController],
     providers: [DriverService],
-    imports: [SequelizeModule.forFeature([DriverModel, TelegramModel, WorkSheetModel, ApplicationModel, CheckModel]), NotificationModule],
+    imports: [
+        SequelizeModule.forFeature([DriverModel, TelegramModel, WorkSheetModel, ApplicationModel, CheckModel]),
+        forwardRef(() => NotificationModule)
+    ],
     exports: [DriverService]
 })
 export class DriverModule {}

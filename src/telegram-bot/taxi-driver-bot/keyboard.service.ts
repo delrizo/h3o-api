@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { Markup } from 'telegraf'
-import { DriverStatus } from '~/constants/shared'
-import { MENU_MESSAGE } from '../../constants/message/menu.message'
+import { DriverStatus, HEARS } from '~/constants/shared'
 
 @Injectable()
 export class KeyboardService {
@@ -9,23 +8,31 @@ export class KeyboardService {
         return Markup.keyboard(menu).resize().oneTime()
     }
 
+    resetMenu() {
+        return Markup.removeKeyboard()
+    }
+
     mainMenu(status?: DriverStatus) {
         switch (status) {
             case DriverStatus.ONE:
-                return this.getMenu([[MENU_MESSAGE.MAIN[status].CREATE_EMPLOYMENT], [MENU_MESSAGE.SHARED.ABOUT]])
+                return this.getMenu([[HEARS.CREATE_EMPLOYMENT], [HEARS.ABOUT]])
             case DriverStatus.TWO:
                 return this.getMenu([
-                    [MENU_MESSAGE.MAIN[status].CABINET],
-                    [MENU_MESSAGE.MAIN[status].FINANCE, MENU_MESSAGE.MAIN[status].CHECKS],
-                    [MENU_MESSAGE.MAIN[status].MEDICAL],
-                    [MENU_MESSAGE.MAIN[status].BN_CARD, MENU_MESSAGE.MAIN[status].VACATION],
-                    [MENU_MESSAGE.MAIN[status].SPIN_OFF],
-                    [MENU_MESSAGE.MAIN[status].SUPPORT]
+                    [HEARS.CABINET],
+                    [HEARS.FINANCE, HEARS.CHECKS],
+                    [HEARS.MEDICAL],
+                    [HEARS.BN_CARD, HEARS.VACATION],
+                    [HEARS.SPIN_OFF],
+                    [HEARS.SUPPORT]
                 ])
-            case DriverStatus.THREE:
-                return this.getMenu([[MENU_MESSAGE.MAIN[status].BLOCK]])
+            case DriverStatus.BLOCK:
+                return this.getMenu([[HEARS.WHAT]])
             default:
-                return this.getMenu([[MENU_MESSAGE.MAIN[DriverStatus.ONE].CREATE_EMPLOYMENT], [MENU_MESSAGE.SHARED.ABOUT]])
+                return this.getMenu([[HEARS.CREATE_EMPLOYMENT], [HEARS.ABOUT]])
         }
+    }
+
+    completeMenu() {
+        return this.getMenu([[HEARS.COMPLETE]])
     }
 }

@@ -8,11 +8,26 @@ export enum ApplicationType {
 
 export const APPLICATION_TYPES = Object.values(ApplicationType)
 
-export enum ReapplyType {
-    EMPLOYMENT = 'reapply_employment'
+export enum ACTION {
+    REAPPLY_EMPLOYMENT = 'reapply_employment',
+    UPLOAD_CHECKS = 'upload_checks'
 }
 
-export const REAPPLY_TYPES = Object.values(ReapplyType)
+export enum HEARS {
+    CREATE_EMPLOYMENT = '🚀 Стать частью команды',
+    CABINET = '💼 Личный кабинет',
+    FINANCE = '💰 Финансы',
+    CHECKS = '🧾 Чеки',
+    MEDICAL = '🩺 Медосмотр',
+    BN_CARD = '⛽️ БН-карта',
+    VACATION = '🗓 Отпуск',
+    COURCE_CLIENT = '🎓 Курс «Клиентский сервис+»',
+    SPIN_OFF = '🎯 Дополнительный заработок',
+    SUPPORT = '🆘 Поддержка',
+    WHAT = '❓ Что делать ❓',
+    ABOUT = '💎 О компании',
+    COMPLETE = '❌ Завершить'
+}
 
 export enum ApplicationTypeWithAll {
     ALL = 'all',
@@ -52,7 +67,7 @@ export const APPLICATION_STATUSES = Object.values(ApplicationStatus)
 export enum DriverStatus {
     ONE = 'one',
     TWO = 'two',
-    THREE = 'three'
+    BLOCK = 'BLOCK'
 }
 
 export const DRIVER_STATUSES = Object.values(DriverStatus)

@@ -7,7 +7,7 @@ import { KeyboardService } from '../taxi-driver-bot/keyboard.service'
 import { MessageService } from '~/message/message.service'
 
 @Injectable()
-export class TelegramDriverBlockGuard implements CanActivate {
+export class TelegramDriverEmployedGuard implements CanActivate {
     constructor(
         private readonly messageService: MessageService,
         private readonly keyboardService: KeyboardService
@@ -19,11 +19,11 @@ export class TelegramDriverBlockGuard implements CanActivate {
 
         const driver = botContext.state.driver as DriverModel
 
-        if (driver.status === DriverStatus.BLOCK) {
-            const message = this.messageService.mainMenuStart(driver.status)
+        if (driver.status !== DriverStatus.TWO) {
+            const message = this.messageService.notAccess()
             const keyboard = this.keyboardService.mainMenu(driver.status)
 
-            await botContext.replyWithMarkdownV2(message, keyboard)
+            await botContext.reply(message, keyboard)
             return false
         }
 

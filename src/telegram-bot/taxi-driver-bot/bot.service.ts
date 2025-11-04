@@ -3,14 +3,17 @@ import { KeyboardService } from './keyboard.service'
 import { DriverService } from '~/entity/driver/driver.service'
 import { User } from 'telegraf/types'
 import { ApplicationService } from '~/entity/application/application.service'
-import { ApplicationStatus } from '~/constants/shared'
+import { ApplicationStatus, DriverStatus } from '~/constants/shared'
 import { ButtonService } from './button.service'
 import { DriverModel } from '~/entity/driver/driver.model'
 import { MessageService } from '~/message/message.service'
+import { Telegraf } from 'telegraf'
+import { InjectBot } from 'nestjs-telegraf'
 
 @Injectable()
 export class BotService {
     constructor(
+        @InjectBot() private readonly bot: Telegraf,
         private readonly keyboardService: KeyboardService,
         private readonly messageService: MessageService,
         private readonly buttonService: ButtonService,
@@ -86,5 +89,19 @@ export class BotService {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     blockHandler(driver: DriverModel) {
         return { message: this.messageService.blockDetails() }
+    }
+
+    async driverStatusChange(telegramId: number, newStatus: DriverStatus) {
+        const message = this.messageService.getStatusChangeMessage(newStatus)
+        const keyboard = this.keyboardService.mainMenu(newStatus)
+
+        await this.bot.telegram.sendMessage(telegramId, message, keyboard)
+    }
+
+    checksHandler() {
+        const message = this.messageService.checksActionMessage()
+        const buttons = this.buttonService.checksButton()
+
+        return { message, buttons }
     }
 }

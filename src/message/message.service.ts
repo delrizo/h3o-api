@@ -6,6 +6,7 @@ import { REAPPLY_MESSAGE } from '~/constants/message/reapply.message'
 import { ERROR_MESSAGE } from '~/constants/message/error.message'
 import { BLOCK_MESSAGE } from '~/constants/message/block.message'
 import { STATUS_MESSAGE } from '~/constants/message/status.message'
+import { CHECKS_MESSAGE } from '~/constants/message/checks.message'
 
 @Injectable()
 export class MessageService {
@@ -42,7 +43,20 @@ export class MessageService {
         return BLOCK_MESSAGE.BASE
     }
 
+    notAccess() {
+        return ERROR_MESSAGE.NOT_ACCESS
+    }
+
     getStatusChangeMessage(status: DriverStatus) {
-        return `${STATUS_MESSAGE.DRIVER.CHANGE} ${STATUS_MESSAGE.DRIVER[status]}`
+        const message = `${STATUS_MESSAGE.DRIVER.CHANGE} ${STATUS_MESSAGE.DRIVER[status]}`
+
+        if (status === DriverStatus.BLOCK) {
+            return `${message}\n\n${START_MESSAGE[status]}`
+        }
+
+        return message
+    }
+    checksActionMessage() {
+        return CHECKS_MESSAGE.ABOUT
     }
 }
